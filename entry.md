@@ -1,24 +1,26 @@
 # Cubic Stylization - final project
 
-This is the final project of course CSC2520: Geometry Processing in. The chosen paper is [Cubic Stylization](https://www.dgp.toronto.edu/projects/cubic-stylization/). Cubic stylization is a 3D stylization tool. The input is a manifold triangle mesh and the output is a cubic triangle mesh. 
+This is the final project of course CSC2520: Geometry Processing in Fall 2020. The chosen paper is [Cubic Stylization](https://www.dgp.toronto.edu/projects/cubic-stylization/). Cubic stylization is a 3D stylization tool. The input is a manifold triangle mesh and the output is a cubic triangle mesh. 
 
 ## References
 
 > **Paper:** See ["Cubic Stylization"
 [Liu, H.T.D. and Jacobson, A., 2019]](https://www.dgp.toronto.edu/projects/cubic-stylization/)
+>
 > **Source Code:** See [Cubic Stylization](https://github.com/HTDerekLiu/CubicStylization_Cpp)
+>
 > **Deformation guide:** See [Geometry Processing - Deformation](https://github.com/alecjacobson/geometry-processing-deformation).
 
 ## Contents
 
-* `include` contains all the `.h` files
-* `source` contains all the `.cpp` files
 * `data` contains avaiable meshes
-* `paper` contains the Cubic Stylization paper
 * `images` contains example outputs
-* `main.cpp` for tutorial demo
+* `include` contains all the `.h` files
+* `paper` contains the Cubic Stylization paper
+* `source` contains all the `.cpp` files
 * `entry.md` is for tutorial
-* Final results in [Vedio](https://youtu.be/xv5lCofoemo)
+* `main.cpp` for tutorial demo
+* Final results in [Video](https://youtu.be/xv5lCofoemo)
 
 ## How to run the code
 
@@ -39,13 +41,23 @@ cmake ..
 make
 ```
 
+(if it doesn't compile in maxOS, try change first line of the `CMakeLists.txt` to  
+
+```
+cmake_minimum_required(VERSION 3.0)
+set(CMAKE_C_COMPILER "/usr/bin/clang")
+set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
+```
+
+)
+
 3. execution by given mesh
 
 ```
 ./cubicstylization [meshName]
 ```
 
-4. Pressing [space] would give the cubic stylization. Pressing [>,.] will increase $\lambda$ and [<,,] will decrease $\lambda$. A small window also pops up which contains the mesh file name and $\lambda$ value.
+4. Pressing [space] would give the cubic stylization. Pressing [>,.] will increase $$\lambda$$ and [<,,] will decrease $$\lambda$$. A small window also pops up which contains the mesh file name and $$\lambda$$ value.
 ![Example outputs with no mesh inputs](./images/spot.png "Example outputs with no mesh inputs")
 
 ## Implement
@@ -73,7 +85,7 @@ Cubic Stylization(V,F) {
 
 The implementation not only could turn mesh without boundaries into cubic but also could turn mesh with boundaries and non-orientable surfaces into cubic.
 
-![Example outputs for ogre which has boundaries](./images/ogre_ori.png "Example outputs for ogre which has boundaries")
+![Example outputs for ogre which has boundaries](./images/ogre_ori.png | width=250)
 ![Example outputs for ogre which has boundaries](./images/ogre_cubic.png "Example outputs for ogre which has boundaries")
 
 ![Example outputs for non-orientable surfaces](./images/kb_ori.png "Example outputs for non-orientable surfaces")

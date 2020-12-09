@@ -16,8 +16,8 @@ struct cubic_style_data
     double epsabs = 1e-5; // absolute criterion for ADMM
     double epsrel = 1e-3; // relative criterion for ADMM
     double mu = 10; // mu value for penalty rho updata
-    double taoincr = 2; // tao value for penalty rho updata
-    double taodecr = 2; // tao value for penalty rho updata
+    double tauincr = 2; // tao value for penalty rho updata
+    double taudecr = 2; // tao value for penalty rho updata
     Eigen::MatrixXd zs, us; // update value for ADMM
     Eigen::VectorXd rhos; // rho values
     
