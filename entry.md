@@ -57,7 +57,7 @@ set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
 ./cubicstylization [meshName]
 ```
 
-4. Pressing [space] would give the cubic stylization. Pressing [>,.] will increase $$\lambda$$ and [<,,] will decrease $$\lambda$$. A small window also pops up which contains the mesh file name and $$\lambda$$ value.
+4. Pressing [space] would give the cubic stylization. Pressing [>,.] will increase <img src="https://render.githubusercontent.com/render/math?math=\lambda"> and [<,,] will decrease <img src="https://render.githubusercontent.com/render/math?math=\lambda">. A small window also pops up which contains the mesh file name and <img src="https://render.githubusercontent.com/render/math?math=\lambda"> value.
 ![Example outputs with no mesh inputs](./images/spot.png "Example outputs with no mesh inputs")
 
 ## Implement
@@ -85,7 +85,7 @@ Cubic Stylization(V,F) {
 
 The implementation not only could turn mesh without boundaries into cubic but also could turn mesh with boundaries and non-orientable surfaces into cubic.
 
-![Example outputs for ogre which has boundaries](./images/ogre_ori.png | width=250)
+![Example outputs for ogre which has boundaries](./images/ogre_ori.png "Example outputs for ogre which has boundaries")
 ![Example outputs for ogre which has boundaries](./images/ogre_cubic.png "Example outputs for ogre which has boundaries")
 
 ![Example outputs for non-orientable surfaces](./images/kb_ori.png "Example outputs for non-orientable surfaces")
@@ -250,7 +250,7 @@ Given `U`, `data`, compute the optimization step, including local (scaled-form A
 
 #### `main.cpp`
 
-Contains short demo that could change the mesh to cubic by pressing [space] and change $\lambda$ value by pressing [>,.] or [<,,]. It also pops up a window that contains mesh file name and $\lambda$ value.
+Contains short demo that could change the mesh to cubic by pressing [space] and change <img src="https://render.githubusercontent.com/render/math?math=\lambda"> value by pressing [>,.] or [<,,]. It also pops up a window that contains mesh file name and <img src="https://render.githubusercontent.com/render/math?math=\lambda"> value.
 
 ## Future steps
 
