@@ -99,26 +99,26 @@ We need two steps to solve a *as-rigid-as-possible* problem, local step and glob
 
 The pro-process step for the algorithm is to compute all the necessary variable for the equation (equation 1 in [paper](https://www.dgp.toronto.edu/projects/cubic-stylization/)):
 
-<img src="http://www.sciweavers.org/tex2img.php?eq=%5Cnewcommand%5Cnorm%5B1%5D%7B%5Cleft%5ClVert%231%5Cright%5CrVert%7D%0A%5Cunderset%7B%5Ctilde%7BV%7D%2C%20%7BR_i%7D%7D%7B%5Ctext%7Bminimize%7D%7D%20%5Csum_%7Bi%5Cin%20V%7D%20%5Csum_%7Bj%5Cin%20N%28i%29%7D%20%5Cfrac%7Bw_%7Bij%7D%7D%7B2%7D%20%20%5Cnorm%7BR_id_%7Bij%7D%20-%20%5Ctilde%7Bd_%7Bij%7D%7D%7D_F%5E2%20%2B%20%5Clambda%20a_i%20%5Cnorm%7BR_i%20%5Chat%7Bn_i%7D%7D_1&bc=White&fc=Black&im=jpg&fs=12&ff=modern&edit=0" align="center" border="0" alt="\newcommand\norm[1]{\left\lVert#1\right\rVert}\underset{\tilde{V}, {R_i}}{\text{minimize}} \sum_{i\in V} \sum_{j\in N(i)} \frac{w_{ij}}{2}  \norm{R_id_{ij} - \tilde{d_{ij}}}_F^2 + \lambda a_i \norm{R_i \hat{n_i}}_1" width="367" height="47" /> 
+<img src="https://bit.ly/375fc93" align="center" border="0" alt="\newcommand\norm[1]{\left\lVert#1\right\rVert}\underset{\tilde{V}, {R_i}}{\text{minimize}} \sum_{i\in V} \sum_{j\in N(i)} \frac{w_{ij}}{2}  \norm{R_id_{ij} - \tilde{d_{ij}}}_F^2 + \lambda a_i \norm{R_i \hat{n_i}}_1" width="550" height="71" />
 
-(The first term is ASAP term and the second term is CUBENESS. The ASAP term could write as $tr(V^TLV) + tr(V^TKR)$ as discussed in [class](https://github.com/alecjacobson/geometry-processing-deformation).)
+(The first term is ASAP term and the second term is CUBENESS. The ASAP term could write as <img src="https://render.githubusercontent.com/render/math?math=tr(V^TLV)"> + <img src="https://render.githubusercontent.com/render/math?math=tr(V^TKR)"> as discussed in [class](https://github.com/alecjacobson/geometry-processing-deformation).)
 
 where  
 
-* $R_i$ is a 3-by-3 rotation matrix, update in local step below
-* $N_i$ is the "spokes and rims" edges of the $i$th vertex, compute by getting the face first (by `igl::vertex_triangle_adjacency`) and then vertex in each face
-* $L$ is cotangent discrete Laplacian matrix, compute directly by function `igl::cotmatrix`
-* $K$ is cotangents multiplied against differences across edges in the rest mesh, compute directly by function `arap_rhs` for `igl::ARAP_ENERGY_TYPE_SPOKES_AND_RIMS` type
-* $w_{ij}$ is the cotangent weight, compute by finding corresponding cotangent discrete for each pair of adjacent edges
-* $d_{ij} = [vj - vi]^T$ is the edge vectors between vertices $i,j$, compute by getting vectors between each pair of adjacent edges
-* $\tilde{d_{ij}} = [\tilde{vj} - \tilde{vi}]$ is the edge vectors between vertices $i,j$ in deformed states, update in local step below
-* $lambda$ is the parameter that used to control cubeness and initialized as 0.0
-* $a_i$ is the barycentric area of vertex $i$, compute by diagonal of `igl::massmatrix`
-* $\hat{n}_i$ is the unit area-weighted normal vector of a vertex $i$, compute directly by `igl::per_vertex_normals`
+* <img src="https://render.githubusercontent.com/render/math?math=R_i">  is a 3-by-3 rotation matrix, update in local step below
+* <img src="https://render.githubusercontent.com/render/math?math=N_i">  is the "spokes and rims" edges of the $i$th vertex, compute by getting the face first (by `igl::vertex_triangle_adjacency`) and then vertex in each face
+* <img src="https://render.githubusercontent.com/render/math?math=L">  is cotangent discrete Laplacian matrix, compute directly by function `igl::cotmatrix`
+* <img src="https://render.githubusercontent.com/render/math?math=K">  is cotangents multiplied against differences across edges in the rest mesh, compute directly by function `arap_rhs` for `igl::ARAP_ENERGY_TYPE_SPOKES_AND_RIMS` type
+* <img src="https://render.githubusercontent.com/render/math?math=w_{ij}">  is the cotangent weight, compute by finding corresponding cotangent discrete for each pair of adjacent edges
+* <img src="https://bit.ly/2VTQIsK" align="center" border="0" alt="$d_{ij} = [vj - vi]^ \top$ " width="171" height="31" /> is the edge vectors between vertices $i,j$, compute by getting vectors between each pair of adjacent edges
+* <img src="https://bit.ly/2VTBDHM" align="center" border="0" alt="$\widetilde{d_{ij}} = [\widetilde{vj} - \widetilde{vi}]^  \top$ " width="171" height="35" /> is the edge vectors between vertices $i,j$ in deformed states, update in local step below
+* <img src="https://render.githubusercontent.com/render/math?math=\lambda"> is the parameter that used to control cubeness and initialized as 0.0
+* <img src="https://render.githubusercontent.com/render/math?math=a_i"> is the barycentric area of vertex $i$, compute by diagonal of `igl::massmatrix`
+* <img src="https://render.githubusercontent.com/render/math?math=\hat{n}_i"> is the unit area-weighted normal vector of a vertex $i$, compute directly by `igl::per_vertex_normals`
 
 #### Local Step
 
-The local step is to find the optimal $R_i$ that minimize the energy above, such that (equation 2 in [paper](https://www.dgp.toronto.edu/projects/cubic-stylization/)):
+The local step is to find the optimal <img src="https://render.githubusercontent.com/render/math?math=R_i">  that minimize the energy above, such that (equation 2 in [paper](https://www.dgp.toronto.edu/projects/cubic-stylization/)):
 
 $$R_i^*  = \newcommand\norm[1]{\left\lVert#1\right\rVert}
 \underset{R_i\in SO(3)}{\text{argmin}} \frac{1}{2}\norm{ R_iD_{i} - \tilde{D_{i}}}_{W_i}^2 + \lambda a_i \norm{R_i \hat{n_i}}_1 $$
