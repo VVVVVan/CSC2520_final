@@ -85,11 +85,21 @@ Cubic Stylization(V,F) {
 
 The implementation can not only turn mesh with and without boundaries into cubic but also turn mesh with boundaries and non-orientable surfaces into cubic.
 
-![Example outputs for ogre which has boundaries](./images/ogre_ori.png "Example outputs for ogre which has boundaries")
-![Example outputs for ogre which has boundaries](./images/ogre_cubic.png "Example outputs for ogre which has boundaries")
+<p align="center">
+  <img height="400" src="./images/ogre_ori.png">
+  <img height="400" src="./images/ogre_cubic.png">
+</p>
+<!-- ![Example outputs for ogre which has boundaries](./images/ogre_ori.png "Example outputs for ogre which has boundaries")
+![Example outputs for ogre which has boundaries](./images/ogre_cubic.png "Example outputs for ogre which has boundaries") -->
 
-![Example outputs for non-orientable surfaces](./images/kb_ori.png "Example outputs for non-orientable surfaces")
-![Example outputs for non-orientable surfaces](./images/kb_cubic.png "Example outputs for non-orientable surfaces")
+<p align="center">
+  <img height="400" src="./images/kb_ori.png">
+  <img height="400" src="./images/kb_cubic.png">
+</p>
+  
+</p> -->
+<!-- ![Example outputs for non-orientable surfaces](./images/kb_ori.png "Example outputs for non-orientable surfaces")
+![Example outputs for non-orientable surfaces](./images/kb_cubic.png "Example outputs for non-orientable surfaces") -->
 
 ### Explanation
 
