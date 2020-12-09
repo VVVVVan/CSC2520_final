@@ -99,8 +99,7 @@ We need two steps to solve a *as-rigid-as-possible* problem, local step and glob
 
 The pro-process step for the algorithm is to compute all the necessary variable for the equation (equation 1 in [paper](https://www.dgp.toronto.edu/projects/cubic-stylization/)):
 
-<img src="https://render.githubusercontent.com/render/math?math=\newcommand\norm[1]{\left\lVert#1\right\rVert}
-\underset{\tilde{V}, {R_i}}{\text{minimize}} \sum_{i\in V} \sum_{j\in N(i)} \frac{w_{ij}}{2}  \norm{R_id_{ij} - \tilde{d_{ij}}}_F^2 + \lambda a_i \norm{R_i \hat{n_i}}_1">
+<img src="http://www.sciweavers.org/tex2img.php?eq=%5Cnewcommand%5Cnorm%5B1%5D%7B%5Cleft%5ClVert%231%5Cright%5CrVert%7D%0A%5Cunderset%7B%5Ctilde%7BV%7D%2C%20%7BR_i%7D%7D%7B%5Ctext%7Bminimize%7D%7D%20%5Csum_%7Bi%5Cin%20V%7D%20%5Csum_%7Bj%5Cin%20N%28i%29%7D%20%5Cfrac%7Bw_%7Bij%7D%7D%7B2%7D%20%20%5Cnorm%7BR_id_%7Bij%7D%20-%20%5Ctilde%7Bd_%7Bij%7D%7D%7D_F%5E2%20%2B%20%5Clambda%20a_i%20%5Cnorm%7BR_i%20%5Chat%7Bn_i%7D%7D_1&bc=White&fc=Black&im=jpg&fs=12&ff=modern&edit=0" align="center" border="0" alt="\newcommand\norm[1]{\left\lVert#1\right\rVert}\underset{\tilde{V}, {R_i}}{\text{minimize}} \sum_{i\in V} \sum_{j\in N(i)} \frac{w_{ij}}{2}  \norm{R_id_{ij} - \tilde{d_{ij}}}_F^2 + \lambda a_i \norm{R_i \hat{n_i}}_1" width="367" height="47" /> 
 
 (The first term is ASAP term and the second term is CUBENESS. The ASAP term could write as $tr(V^TLV) + tr(V^TKR)$ as discussed in [class](https://github.com/alecjacobson/geometry-processing-deformation).)
 
