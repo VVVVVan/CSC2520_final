@@ -57,18 +57,18 @@ set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
 ./cubicstylization [meshName]
 ```
 
-4. Pressing [space] would give the cubic stylization. Pressing [>,.] will increase <img src="https://render.githubusercontent.com/render/math?math=\lambda"> and [<,,] will decrease <img src="https://render.githubusercontent.com/render/math?math=\lambda">. A small window also pops up which contains the mesh file name and <img src="https://render.githubusercontent.com/render/math?math=\lambda"> value.
+4. Pressing [space] would give the cubic stylization. Pressing [>]or[.] will increase <img src="https://render.githubusercontent.com/render/math?math=\lambda"> and [<] or[,] will decrease <img src="https://render.githubusercontent.com/render/math?math=\lambda">. A small window also pops up which contains the mesh file name and <img src="https://render.githubusercontent.com/render/math?math=\lambda"> value.
 ![Example outputs with no mesh inputs](./images/spot.png "Example outputs with no mesh inputs")
 
 ## Implement
 
 ### Summary
 
-The paper introduces a 3D stylization algorithm that can turn an input shape into the style of a cube. The cubic style sculptures are realized by minimizing the *as-rigid-as-possible* energy with an $$l^1$$-regularization or rotated surface normals (Algorithm 1). To accelerate ARAP deformation, they include a hierarchical approach by deforming a low-resolution model and recovering the details back afterward (Algorithm 2). They also expose many variants to incorporate artistic controls.
+The paper introduces a 3D stylization algorithm that can turn an input shape into the style of a cube. The cubic style sculptures are realized by minimizing the *as-rigid-as-possible* energy with an <img src="https://render.githubusercontent.com/render/math?math=l^1">-regularization or rotated surface normals (Algorithm 1). To accelerate ARAP deformation, they include a hierarchical approach by deforming a low-resolution model and recovering the details back afterward (Algorithm 2). They also expose many variants to incorporate artistic controls.
 
 ### What is implemented
 
-For this project, Algorithm 1 is implemented to have the basic function, turning the shape to cubic.
+For this project, Algorithm 1 is implemented to have the basic function, turning the shape of the triangle mesh to cubic.
 
 **Pseudocode** of Algorithm 1 from [paper](https://www.dgp.toronto.edu/projects/cubic-stylization/):
 
@@ -83,7 +83,7 @@ Cubic Stylization(V,F) {
 }
 ```
 
-The implementation not only could turn mesh without boundaries into cubic but also could turn mesh with boundaries and non-orientable surfaces into cubic.
+The implementation can not only turn mesh with and without boundaries into cubic but also turn mesh with boundaries and non-orientable surfaces into cubic.
 
 ![Example outputs for ogre which has boundaries](./images/ogre_ori.png "Example outputs for ogre which has boundaries")
 ![Example outputs for ogre which has boundaries](./images/ogre_cubic.png "Example outputs for ogre which has boundaries")
@@ -99,8 +99,8 @@ We need two steps to solve a *as-rigid-as-possible* problem, local step and glob
 
 The pro-process step for the algorithm is to compute all the necessary variable for the equation (equation 1 in [paper](https://www.dgp.toronto.edu/projects/cubic-stylization/)):
 
-$$\newcommand\norm[1]{\left\lVert#1\right\rVert}
-\underset{\tilde{V}, {R_i}}{\text{minimize}} \sum_{i\in V} \sum_{j\in N(i)} \frac{w_{ij}}{2}  \norm{R_id_{ij} - \tilde{d_{ij}}}_F^2 + \lambda a_i \norm{R_i \hat{n_i}}_1$$  
+<img src="https://render.githubusercontent.com/render/math?math=\newcommand\norm[1]{\left\lVert#1\right\rVert}
+\underset{\tilde{V}, {R_i}}{\text{minimize}} \sum_{i\in V} \sum_{j\in N(i)} \frac{w_{ij}}{2}  \norm{R_id_{ij} - \tilde{d_{ij}}}_F^2 + \lambda a_i \norm{R_i \hat{n_i}}_1">
 
 (The first term is ASAP term and the second term is CUBENESS. The ASAP term could write as $tr(V^TLV) + tr(V^TKR)$ as discussed in [class](https://github.com/alecjacobson/geometry-processing-deformation).)
 
