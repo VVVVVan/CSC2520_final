@@ -37,7 +37,7 @@ void cubic_style_single_iteration(
         Eigen::MatrixXd Dtildei(3, data.he[i].rows());
         Dtildei = (hej - hei).transpose();
 
-        // Hint: Mi = D * W * Dtildei' + ni * rho * (z-u)
+        // Hint: Mi = D * W * Dtildei' + ni * rho * (z-u)'
         // Atb in [2]
         Eigen::Matrix3d firstterm = Di * Wi.asDiagonal() * Dtildei.transpose();
 
@@ -77,11 +77,11 @@ void cubic_style_single_iteration(
             double s = (-rho*(z - zold)).norm();
 
             if (r > data.mu * s) {
-                rho = data.taoincr * rho;
-                u = u/data.taoincr;
+                rho = data.tauincr * rho;
+                u = u/data.tauincr;
             } else if (s > data.mu * r) {
-                rho = rho / data.taodecr;
-                u = u * data.taodecr;
+                rho = rho / data.taudecr;
+                u = u * data.taudecr;
             }
 
             // Early stop
