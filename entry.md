@@ -99,26 +99,28 @@ We need two steps to solve a *as-rigid-as-possible* problem, local step and glob
 
 The pro-process step for the algorithm is to compute all the necessary variable for the equation (equation 1 in [paper](https://www.dgp.toronto.edu/projects/cubic-stylization/)):
 
-<img src="https://bit.ly/375fc93" align="center" border="0" alt="\newcommand\norm[1]{\left\lVert#1\right\rVert}\underset{\tilde{V}, {R_i}}{\text{minimize}} \sum_{i\in V} \sum_{j\in N(i)} \frac{w_{ij}}{2}  \norm{R_id_{ij} - \tilde{d_{ij}}}_F^2 + \lambda a_i \norm{R_i \hat{n_i}}_1" width="550" height="71" />
+![](./images/eq1.png)
+$$\newcommand\norm[1]{\left\lVert#1\right\rVert}
+\underset{\tilde{V}, {R_i}}{\text{minimize}} \sum_{i\in V} \sum_{j\in N(i)} \frac{w_{ij}}{2}  \norm{R_id_{ij} - \tilde{d_{ij}}}_F^2 + \lambda a_i \norm{R_i \hat{n_i}}_1$$  
 
 (The first term is ASAP term and the second term is CUBENESS. The ASAP term could write as <img src="https://render.githubusercontent.com/render/math?math=tr(V^TLV)"> + <img src="https://render.githubusercontent.com/render/math?math=tr(V^TKR)"> as discussed in [class](https://github.com/alecjacobson/geometry-processing-deformation).)
 
 where  
 
-* <img src="https://render.githubusercontent.com/render/math?math=R_i">  is a 3-by-3 rotation matrix, update in local step below
-* <img src="https://render.githubusercontent.com/render/math?math=N_i">  is the "spokes and rims" edges of the $i$th vertex, compute by getting the face first (by `igl::vertex_triangle_adjacency`) and then vertex in each face
-* <img src="https://render.githubusercontent.com/render/math?math=L">  is cotangent discrete Laplacian matrix, compute directly by function `igl::cotmatrix`
-* <img src="https://render.githubusercontent.com/render/math?math=K">  is cotangents multiplied against differences across edges in the rest mesh, compute directly by function `arap_rhs` for `igl::ARAP_ENERGY_TYPE_SPOKES_AND_RIMS` type
-* <img src="https://render.githubusercontent.com/render/math?math=w_{ij}">  is the cotangent weight, compute by finding corresponding cotangent discrete for each pair of adjacent edges
-* <img src="https://bit.ly/2VTQIsK" align="center" border="0" alt="$d_{ij} = [vj - vi]^ \top$ " width="171" height="31" /> is the edge vectors between vertices $i,j$, compute by getting vectors between each pair of adjacent edges
-* <img src="https://bit.ly/2VTBDHM" align="center" border="0" alt="$\widetilde{d_{ij}} = [\widetilde{vj} - \widetilde{vi}]^  \top$ " width="171" height="35" /> is the edge vectors between vertices $i,j$ in deformed states, update in local step below
+* <img src="https://render.githubusercontent.com/render/math?math=R_i"> is a 3-by-3 rotation matrix, update in local step below
+* <img src="https://render.githubusercontent.com/render/math?math=N_i"> is the "spokes and rims" edges of the $i$th vertex, compute by getting the face first (by `igl::vertex_triangle_adjacency`) and then vertex in each face
+* <img src="https://render.githubusercontent.com/render/math?math=L"> is cotangent discrete Laplacian matrix, compute directly by function `igl::cotmatrix`
+* <img src="https://render.githubusercontent.com/render/math?math=K"> is cotangents multiplied against differences across edges in the rest mesh, compute directly by function `arap_rhs` for `igl::ARAP_ENERGY_TYPE_SPOKES_AND_RIMS` type
+* <img src="https://render.githubusercontent.com/render/math?math=w_{ij}"> is the cotangent weight, compute by finding corresponding cotangent discrete for each pair of adjacent edges
+* $d_{ij} = [vj - vi]^T$ is the edge vectors between vertices $i,j$, compute by getting vectors between each pair of adjacent edges
+* $\tilde{d_{ij}} = [\tilde{vj} - \tilde{vi}]$ is the edge vectors between vertices $i,j$ in deformed states, update in local step below
 * <img src="https://render.githubusercontent.com/render/math?math=\lambda"> is the parameter that used to control cubeness and initialized as 0.0
 * <img src="https://render.githubusercontent.com/render/math?math=a_i"> is the barycentric area of vertex $i$, compute by diagonal of `igl::massmatrix`
 * <img src="https://render.githubusercontent.com/render/math?math=\hat{n}_i"> is the unit area-weighted normal vector of a vertex $i$, compute directly by `igl::per_vertex_normals`
 
 #### Local Step
 
-The local step is to find the optimal <img src="https://render.githubusercontent.com/render/math?math=R_i">  that minimize the energy above, such that (equation 2 in [paper](https://www.dgp.toronto.edu/projects/cubic-stylization/)):
+The local step is to find the optimal <img src="https://render.githubusercontent.com/render/math?math=R_i"> that minimize the energy above, such that (equation 2 in [paper](https://www.dgp.toronto.edu/projects/cubic-stylization/)):
 
 $$R_i^*  = \newcommand\norm[1]{\left\lVert#1\right\rVert}
 \underset{R_i\in SO(3)}{\text{argmin}} \frac{1}{2}\norm{ R_iD_{i} - \tilde{D_{i}}}_{W_i}^2 + \lambda a_i \norm{R_i \hat{n_i}}_1 $$
@@ -142,7 +144,7 @@ where $\rho$ is the penality and $u$ is the scaled dual variable.
 
 Before go into optimizing the local step, there are some local-step parameters need to be initilized according to sec 3.1 of the [paper](https://www.dgp.toronto.edu/projects/cubic-stylization/). Initialize $z,u$ with all zeros by `setZero()`, $\rho = 10^{-4}, \epsilon^{abs} = 10^{-5}, \epsilon^{rel} = 10^{-3}, \mu = 10, \tau^{incr}=\tau^{decr}=2$.  
 
-##### Update $R_i$
+##### Update <img src="https://render.githubusercontent.com/render/math?math=R_i">
 
 $$ \newcommand\norm[1]{\left\lVert#1\right\rVert}
 R_i^{k+1} \leftarrow \underset{R_i\in SO(3)}{\text{argmin}} \frac{1}{2}\norm{ R_iD_{i} - \tilde{D_{i}}}_{W_i}^2 + \frac{\rho ^k}{2} \norm{R_i^{k} \hat{n_i} -z^k +u^k}_2^2$$
@@ -159,7 +161,7 @@ Wi & 0\\
 \end{bmatrix}\\
 = D_i * W_i*\tilde{D}_i^T+\hat{n}_i*\rho^k * (z^k - u^k)^T$$
 
-And the optimal $R_i = V_iU_i^T$ where $V_i,U_i$ is the singluar valur decomposition of $M_i$ compute by `Eigen::JacobiSVD`. Changing the sign of the column of $U_i$ to ensure that det($R_i$) is positive.
+And the optimal $R_i = V_iU_i^T$ where $V_i,U_i$ is the singluar valur decomposition of $M_i$ compute by `Eigen::JacobiSVD`. Changing the sign of the column of $U_i$ to ensure that det(<img src="https://render.githubusercontent.com/render/math?math=R_i">) is positive.
 
 ##### Update $z$
 
@@ -230,7 +232,7 @@ The global step is easier than local step. Thanks to `igl::min_quad_with_fixed`,
 
 ****
 
-> * If $n$ denotes number of vertex in the mesh, $K \in \mathbb{R}^{3n \times 3(3n)}$ and $R \in \mathbb{R}^{3n*3}$. Need resize $R$ to time correctly and resize $B$ for updating $V$.
+> * If <img src="https://render.githubusercontent.com/render/math?math=n"> denotes number of vertex in the mesh, $K \in \mathbb{R}^{3n \times 3(3n)}$ and $R \in \mathbb{R}^{3n*3}$. Need resize $R$ to time correctly and resize $B$ for updating $V$.
 > * Read [Quadratic Energy Minimization](https://libigl.github.io/tutorial/#laplacian) or review [Geometry Processing - Deformation](https://github.com/alecjacobson/geometry-processing-deformation)for more details.
 
 ### In my code
