@@ -136,11 +136,11 @@ This equation is a standard ADMM formulation, and could be solved using [scaled-
 
 ![](./images/eq7.png)
 
-where <img src="https://render.githubusercontent.com/render/math?math=\rho"> is the penality and $u$ is the scaled dual variable.
+where <img src="https://render.githubusercontent.com/render/math?math=\rho"> is the penality and <img src="https://render.githubusercontent.com/render/math?math=u"> is the scaled dual variable.
 
 Before go into optimizing the local step, there are some local-step parameters need to be initilized according to sec 3.1 of the [paper](https://www.dgp.toronto.edu/projects/cubic-stylization/). Initialize <img src="https://render.githubusercontent.com/render/math?math=z">,<img src="https://render.githubusercontent.com/render/math?math=u"> with all zeros by `setZero()`, and ![](./images/pa.png).  
 
-##### Update <img src="https://render.githubusercontent.com/render/math?math=R_i">
+#### Update <img src="https://render.githubusercontent.com/render/math?math=R_i">
 
 ![](./images/eq4.png)
 
@@ -150,7 +150,7 @@ The equation could wirte as:
 
 And the optimal <img src="https://render.githubusercontent.com/render/math?math=R_i"> = <img src="https://render.githubusercontent.com/render/math?math=V_i"><img src="https://render.githubusercontent.com/render/math?math=U_i^T"> where <img src="https://render.githubusercontent.com/render/math?math=V_i">, <img src="https://render.githubusercontent.com/render/math?math=U_i"> is the singluar valur decomposition of <img src="https://render.githubusercontent.com/render/math?math=M_i"> compute by `Eigen::JacobiSVD`. Changing the sign of the column of <img src="https://render.githubusercontent.com/render/math?math=U_i"> to ensure that det(<img src="https://render.githubusercontent.com/render/math?math=R_i">) is positive.
 
-##### Update <img src="https://render.githubusercontent.com/render/math?math=z">
+#### Update <img src="https://render.githubusercontent.com/render/math?math=z">
 
 ![](./images/eq5.png)
 
@@ -164,13 +164,13 @@ Based on [sec 4.4.3 of ADMM paper](https://stanford.edu/~boyd/papers/pdf/admm_di
 
 which is easy to implement.
 
-##### update <img src="https://render.githubusercontent.com/render/math?math=\tilde{u}">
+#### update <img src="https://render.githubusercontent.com/render/math?math=\tilde{u}">
 
 ![](./images/eq6.png)
 
 This is very straightforward and no special methods included.
 
-##### update <img src="https://render.githubusercontent.com/render/math?math=\rho, u">
+#### update <img src="https://render.githubusercontent.com/render/math?math=\rho, u">
 
 ![](./images/eq7.png)
 
@@ -181,7 +181,6 @@ This `update()` function is based on [sec 3.4.1 of ADMM paper](https://stanford.
 after that <img src="https://render.githubusercontent.com/render/math?math=u"> is updated accordingly, such that if <img src="https://render.githubusercontent.com/render/math?math=\rho"> increase, <img src="https://render.githubusercontent.com/render/math?math=u"> decrease by <img src="https://render.githubusercontent.com/render/math?math=\tau^{decr}">; if <img src="https://render.githubusercontent.com/render/math?math=\rho"> decrease, <img src="https://render.githubusercontent.com/render/math?math=u"> increase by <img src="https://render.githubusercontent.com/render/math?math=\tau^{incr}">.
 
 ****
-Hints and Ref:
 
 > * Store the half edges/ pair of neighbor vertexes could help compute the <img src="https://render.githubusercontent.com/render/math?math=\tilde{D_i}"> in local step
 > * <img src="https://render.githubusercontent.com/render/math?math=d_{ij}"> is <img src="https://render.githubusercontent.com/render/math?math=vj"> - <img src="https://render.githubusercontent.com/render/math?math=vi">!
