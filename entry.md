@@ -129,13 +129,16 @@ which could be further written as (equation 3 in [paper](https://www.dgp.toronto
 This equation is a standard ADMM formulation, and could be solved using [scaled-form ADMM updates](https://stanford.edu/~boyd/papers/pdf/admm_distr_stats.pdf) (equation 4,5,6,7 in [paper](https://www.dgp.toronto.edu/projects/cubic-stylization/)):
 
 ![](./images/eq4.png)
+
 ![](./images/eq5.png)
+
 ![](./images/eq6.png)
+
 ![](./images/eq7.png)
 
-where $\rho$ is the penality and $u$ is the scaled dual variable.
+where <img src="https://render.githubusercontent.com/render/math?math=\rho"> is the penality and $u$ is the scaled dual variable.
 
-Before go into optimizing the local step, there are some local-step parameters need to be initilized according to sec 3.1 of the [paper](https://www.dgp.toronto.edu/projects/cubic-stylization/). Initialize $z,u$ with all zeros by `setZero()`, and ![](./images/pa.png).  
+Before go into optimizing the local step, there are some local-step parameters need to be initilized according to sec 3.1 of the [paper](https://www.dgp.toronto.edu/projects/cubic-stylization/). Initialize <img src="https://render.githubusercontent.com/render/math?math=z">,<img src="https://render.githubusercontent.com/render/math?math=u"> with all zeros by `setZero()`, and ![](./images/pa.png).  
 
 ##### Update <img src="https://render.githubusercontent.com/render/math?math=R_i">
 
@@ -145,7 +148,7 @@ The equation could wirte as:
 
 ![](./images/eq1-1.png)
 
-And the optimal <img src="https://render.githubusercontent.com/render/math?math=R_i"> = <img src="https://render.githubusercontent.com/render/math?math=V_i"><img src="https://render.githubusercontent.com/render/math?math=U_i^T"> where <img src="https://render.githubusercontent.com/render/math?math=V_i">, <img src="https://render.githubusercontent.com/render/math?math=U_i"> is the singluar valur decomposition of $M_i$ compute by `Eigen::JacobiSVD`. Changing the sign of the column of <img src="https://render.githubusercontent.com/render/math?math=U_i"> to ensure that det(<img src="https://render.githubusercontent.com/render/math?math=R_i">) is positive.
+And the optimal <img src="https://render.githubusercontent.com/render/math?math=R_i"> = <img src="https://render.githubusercontent.com/render/math?math=V_i"><img src="https://render.githubusercontent.com/render/math?math=U_i^T"> where <img src="https://render.githubusercontent.com/render/math?math=V_i">, <img src="https://render.githubusercontent.com/render/math?math=U_i"> is the singluar valur decomposition of <img src="https://render.githubusercontent.com/render/math?math=M_i"> compute by `Eigen::JacobiSVD`. Changing the sign of the column of <img src="https://render.githubusercontent.com/render/math?math=U_i"> to ensure that det(<img src="https://render.githubusercontent.com/render/math?math=R_i">) is positive.
 
 ##### Update <img src="https://render.githubusercontent.com/render/math?math=z">
 
@@ -155,7 +158,7 @@ This equation is an instance of the *lasso* problem and could solve with a *shri
 
 ![](./images/eq5-1.png)
 
-Based on [sec 4.4.3 of ADMM paper](https://stanford.edu/~boyd/papers/pdf/admm_distr_stats.pdf), $S_\kappa(x)_j$ could also write as:  
+Based on [sec 4.4.3 of ADMM paper](https://stanford.edu/~boyd/papers/pdf/admm_distr_stats.pdf), the shrinkage could also write as:  
 
 ![](./images/eq5-2.png)
 
@@ -184,13 +187,13 @@ Hints and Ref:
 > * <img src="https://render.githubusercontent.com/render/math?math=d_{ij}"> is <img src="https://render.githubusercontent.com/render/math?math=vj"> - <img src="https://render.githubusercontent.com/render/math?math=vi">!
 > * Need to notice the orientation/size of each vertex during implementing
 > * Could get first term of <img src="https://render.githubusercontent.com/render/math?math=W_i"> before going into ADMM loops to save some time
-> * Need copy <img src="https://render.githubusercontent.com/render/math?math=z^k"> first before updating $z$, <img src="https://render.githubusercontent.com/render/math?math=z^k"> needed for <img src="https://render.githubusercontent.com/render/math?math=\rho"> updates 
+> * Need copy <img src="https://render.githubusercontent.com/render/math?math=z^k"> first before updating <img src="https://render.githubusercontent.com/render/math?math=z">, <img src="https://render.githubusercontent.com/render/math?math=z^k"> needed for <img src="https://render.githubusercontent.com/render/math?math=\rho"> updates  
 > * Read [ADMM paper](https://stanford.edu/~boyd/papers/pdf/admm_distr_stats.pdf) or [ADMM slide](https://web.stanford.edu/~boyd/papers/pdf/admm_slides.pdf) for more details
 > * [Example ADMM lasso code](https://web.stanford.edu/~boyd/papers/admm/lasso/lasso.html)
 
 #### Global Step
 
-The global step is to find the optimal $V$ that minimize the energy, such that:
+The global step is to find the optimal <img src="https://render.githubusercontent.com/render/math?math=V"> that minimize the energy, such that:
 
 ![](./images/gs.png)
 
@@ -198,8 +201,8 @@ The global step is easier than local step. Thanks to `igl::min_quad_with_fixed`,
 
 ****
 
-> * If <img src="https://render.githubusercontent.com/render/math?math=n"> denotes number of vertex in the mesh: ![](./images/k.png) and ![](./images/r.png)$. Need resize <img src="https://render.githubusercontent.com/render/math?math=R"> to time correctly and resize <img src="https://render.githubusercontent.com/render/math?math=B"> for updating <img src="https://render.githubusercontent.com/render/math?math=V">.
-> * Read [Quadratic Energy Minimization](https://libigl.github.io/tutorial/#laplacian) or review [Geometry Processing - Deformation](https://github.com/alecjacobson/geometry-processing-deformation)for more details.
+> * If <img src="https://render.githubusercontent.com/render/math?math=n"> denotes number of vertex in the mesh: ![](./images/k.png) and ![](./images/R.png). Need resize <img src="https://render.githubusercontent.com/render/math?math=R"> to time correctly and resize <img src="https://render.githubusercontent.com/render/math?math=B"> for updating <img src="https://render.githubusercontent.com/render/math?math=V">.
+> * Read [Quadratic Energy Minimization](https://libigl.github.io/tutorial/#laplacian) or review [Geometry Processing - Deformation](https://github.com/alecjacobson/geometry-processing-deformation) for more details.
 
 ### In my code
 
